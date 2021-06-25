@@ -20,21 +20,23 @@ if(!require("shiny"))
 ui <- fluidPage(
 
     # Application title
-    titlePanel("Old Faithful Geyser Data"),
+    titlePanel("Visualize correlations"),
 
     # Sidebar with inputs ====
     sidebarLayout(
         sidebarPanel(
             sliderInput("corr",
                         "Specify correlation",
-                        min = -1,
-                        max = 1,
+                        min = -0.9999999,
+                        max = 0.9999999,
                         value = 0,
                         step = 0.001),
-            numericInput("samplesize",
-                         "Change sample size",
-                         min = 2,
-                         value = 1000),
+            sliderInput("samplesize",
+                        "Change sample size",
+                        min = 3,
+                        max = 10000,
+                        value = 1000,
+                        step = 1),
             selectInput("plotline",
                         "Show regression line?",
                         c("Yes" = T, "No" = F)),
@@ -209,8 +211,6 @@ server <- function(input, output) {
                   line = input$plotline)
     })
 }
-
-
 
 
 # Run the application 
