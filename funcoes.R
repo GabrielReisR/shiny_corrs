@@ -30,6 +30,7 @@ project_theme <-
 corr_plot <- function(corr = 0,
                       sample = 1000,
                       line = T){
+  set.seed(42)
   
   df <- rnorm_multi(n = sample, 
                     mu = c(20, 20),

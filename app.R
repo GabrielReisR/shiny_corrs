@@ -37,8 +37,9 @@ ui <- fluidPage(
                          value = 1000),
             selectInput("plotline",
                         "Show regression line?",
-                        c("Yes", "No")),
+                        c("Yes" = T, "No" = F)),
             
+            # Conditional Panels ====
             conditionalPanel("input.corr < 0.1 &
                              input.corr > -0.1",
                              h5(strong("It appears that X and Y are NOT
@@ -191,6 +192,7 @@ ui <- fluidPage(
             
             ),
 
+        
         # Show a plot of the generated distribution ====
         mainPanel(
            plotOutput("corrplot")
@@ -202,12 +204,9 @@ ui <- fluidPage(
 server <- function(input, output) {
 
     output$corrplot <- renderPlot({
-        # generate bins based on input$bins from ui.R
-        x    <- faithful[, 2]
-        bins <- seq(min(x), max(x), length.out = input$bins + 1)
-
-        # draw the histogram with the specified number of bins
-        hist(x, breaks = bins, col = 'darkgray', border = 'white')
+        corr_plot(corr = input$corr,
+                  sample = input$samplesize,
+                  line = input$plotline)
     })
 }
 
