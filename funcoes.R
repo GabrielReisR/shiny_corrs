@@ -47,21 +47,15 @@ corr_plot <- function(corr = 0,
       # Line
       stat_smooth(method = "lm", se = F, color = "#011F5a", size = 1.2) +
       
-      # Theme
-      theme_classic() +
-      
-      #Removing axis
-      project_theme} else{
-      
-      ggplot(df, aes(x = X, y = Y)) +
+      # Themes
+      theme_classic() + project_theme} else{
         
-        # Points
-        geom_point(alpha = 0.5, position = 'jitter', color = "#011e5a") +
+        ggplot(df, aes(x = X, y = Y)) +
         
-        # Theme
-        theme_classic() +
+          # Points
+          geom_point(alpha = 0.5, position = 'jitter', color = "#011e5a") +
         
-        #Removing axis
-        project_theme}
+          # Themes
+          theme_classic() + project_theme}
   
 }
