@@ -12,30 +12,56 @@ if(!require("ggplot2"))
 if(!require("plotly"))
   install.packages("plotly"); library(plotly)
 
-dat <- rnorm_multi(n = 1000, 
-                   mu = c(20, 20),
-                   sd = c(5, 5),
-                   r = c(0.5), 
-                   varnames = c("A", "B"),
-                   empirical = T)
-dat
+# Minimalist theme ====
+project_theme <- 
+  theme(legend.position = "none",
+      panel.grid.minor.x = element_blank(),
+      panel.grid.minor.y = element_blank(),
+      panel.grid.major.y = element_blank(),
+      axis.ticks.x = element_blank(),
+      axis.ticks.y = element_blank(),
+      panel.border = element_blank(),
+      plot.title = element_blank(),
+      plot.subtitle = element_blank(),
+      axis.text = element_blank(),
+      axis.title = element_text(size = 14))
 
-psych::describe(dat)
-?rnorm_multi
-
-ggplot(dat, aes(x = A, y = B)) +
+# Correlation plot function ====
+corr_plot <- function(corr = 0,
+                      sample = 1000,
+                      line = T){
   
-  # Pontos
-  geom_point(alpha = 0.5, position = 'jitter', color = "#011e5a") +
+  df <- rnorm_multi(n = sample, 
+                    mu = c(20, 20),
+                    sd = c(5, 5),
+                    r = corr, 
+                    varnames = c("X", "Y"),
+                    empirical = T)
   
-  # Linha
-  stat_smooth(method = "lm", se = F, color = "#011F5a", size = 1.5) +
+  if(line == T){
+    ggplot(df, aes(x = X, y = Y)) +
+      
+      # Points
+      geom_point(alpha = 0.5, position = 'jitter', color = "#011e5a") +
+      
+      # Line
+      stat_smooth(method = "lm", se = F, color = "#011F5a", size = 1.2) +
+      
+      # Theme
+      theme_classic() +
+      
+      #Removing axis
+      project_theme} else{
+      
+      ggplot(df, aes(x = X, y = Y)) +
+        
+        # Points
+        geom_point(alpha = 0.5, position = 'jitter', color = "#011e5a") +
+        
+        # Theme
+        theme_classic() +
+        
+        #Removing axis
+        project_theme}
   
-  # Ajustando x
-  xlab('X') +
-  
-  # Ajustando y
-  ylab('Y') +
-  
-  # theme
-  theme_classic()
+}
