@@ -9,14 +9,10 @@ if(!require("faux"))
     install.packages("faux"); library(faux)
 if(!require("ggplot2"))
     install.packages("ggplot2"); library(ggplot2)
-if(!require("htmltools"))
-    install.packages("htmltools"); library(htmltools)
-if(!require("plotly"))
-    install.packages("plotly"); library(plotly)
 if(!require("shiny"))
     install.packages("shiny"); library(shiny)
 
-# Define UI for application that draws a histogram
+# Define UI for application
 ui <- fluidPage(
 
     # Application title
@@ -67,8 +63,8 @@ ui <- fluidPage(
                              analysis for the behavioral sciences (2nd edition).
                                       Lawrence Erlbaum.")),
             
-            conditionalPanel("input.corr >= 0.1 |
-                             input.corr <= -0.1",
+            conditionalPanel("input.corr >= 0.1 & input.corr < 0.3|
+                             input.corr <= -0.1 & input.corr > -0.3",
                              h5(strong('There seems to be a WEAK correlation
                                        between X and Y.')),
                              h6("Based on Cohen (1988), this happens when the
@@ -92,8 +88,8 @@ ui <- fluidPage(
                              analysis for the behavioral sciences (2nd edition).
                                       Lawrence Erlbaum.")),
             
-            conditionalPanel("input.corr >= 0.3 |
-                             input.corr <= -0.3",
+            conditionalPanel("input.corr >= 0.3 & input.corr < 0.5|
+                             input.corr <= -0.3 & input.corr > -0.5",
                              h5(strong('There seems to be a MODERATE correlation
                                        between X and Y.')),
                              h6("Based on Cohen (1988), this happens when the
@@ -114,8 +110,8 @@ ui <- fluidPage(
                              analysis for the behavioral sciences (2nd edition).
                                       Lawrence Erlbaum.")),
             
-            conditionalPanel("input.corr >= 0.5 |
-                             input.corr <= -0.5",
+            conditionalPanel("input.corr >= 0.5 & input.corr < 0.7|
+                             input.corr <= -0.5 & input.corr > -0.7",
                              h5(strong('There seems to be a STRONG correlation
                                        between X and Y.')),
                              h6("Based on Cohen (1988), this happens when the
@@ -136,8 +132,8 @@ ui <- fluidPage(
                              analysis for the behavioral sciences (2nd edition).
                                       Lawrence Erlbaum.")),
             
-            conditionalPanel("input.corr >= 0.7 |
-                             input.corr <= -0.7",
+            conditionalPanel("input.corr >= 0.7 & input.corr < 0.9 |
+                             input.corr <= -0.7 & input.corr > -0.9 ",
                              h5(strong('There seems to be a STRONG correlation
                                        between X and Y.')),
                              h6("Based on Cohen (1988), this happens when the
@@ -154,7 +150,9 @@ ui <- fluidPage(
                                 almost half of the variance between the
                                 two variables is being shared, given that
                                 r² = 0.49, which is equivalent to 49% of 
-                                shared variance."),
+                                shared variance. Maybe it's time to think if
+                                these two variables have a common cause or if
+                                one causes another."),
                              
                              hr(),
                              
@@ -164,8 +162,8 @@ ui <- fluidPage(
                              analysis for the behavioral sciences (2nd edition).
                                       Lawrence Erlbaum.")),
             
-            conditionalPanel("input.corr >= 0.7 |
-                             input.corr <= -0.7",
+            conditionalPanel("input.corr >= 0.9 |
+                             input.corr <= -0.9",
                              h5(strong('There seems to be a STRONG correlation
                                        between X and Y.')),
                              h6("Based on Cohen (1988), this happens when the
@@ -182,7 +180,9 @@ ui <- fluidPage(
                                 almost all of the variance between the
                                 two variables is being shared, given that
                                 r² = 0.81, which is equivalent to 81% of 
-                                shared variance."),
+                                shared variance. It seems that these two
+                                variables have a common cause or one is causing
+                                variation in the other."),
                              
                              hr(),
                              
@@ -195,14 +195,14 @@ ui <- fluidPage(
             ),
 
         
-        # Show a plot of the generated distribution ====
+        # Show the correlation plot ====
         mainPanel(
            plotOutput("corrplot")
         )
     )
 )
 
-# Define server logic required to draw a histogram ====
+# Define server logic ====
 server <- function(input, output) {
 
     output$corrplot <- renderPlot({

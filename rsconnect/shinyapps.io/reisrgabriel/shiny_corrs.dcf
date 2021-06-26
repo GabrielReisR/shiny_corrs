@@ -1,0 +1,13 @@
+name: shiny_corrs
+title: shiny_corrs
+username:
+account: reisrgabriel
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 4319655
+bundleId: 4756629
+url: https://reisrgabriel.shinyapps.io/shiny_corrs/
+when: 1624635565.54335
+lastSyncTime: 1624635565.54335
+asMultiple: FALSE
+asStatic: FALSE
